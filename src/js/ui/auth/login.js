@@ -1,5 +1,4 @@
-const logButton = document.getElementById("loginButton");
-const registBtn = document.getElementById("registerBtn");
+let token;
 
 export async function onLogin(event) {
   event.preventDefault();
@@ -32,27 +31,34 @@ export async function onLogin(event) {
       throw new Error(data.message || "Login failed");
     }
 
-    const token = data.data.accessToken;
+    token = data.data.accessToken;
     localStorage.setItem("token", token);
-
-    window.location.href = "/post/index.html";
+    window.location.href = `/`;
   } catch (error) {
     console.error("Login error:", error);
     alert("Login failed: " + error.message);
   }
 }
 
-document.getElementById("password");
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
+document.addEventListener("DOMContentLoaded", () => {
+  const logButton = document.getElementById("loginButton");
+  const registBtn = document.getElementById("registerBtn");
+
+  logButton.addEventListener("click", function (event) {
     onLogin(event);
-  }
+  });
+
+  registBtn.onclick = function () {
+    window.location.href = `/`;
+  };
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      onLogin(event);
+    }
+  });
 });
 
-logButton.addEventListener("click", function (event) {
-  onLogin(event);
-});
-
-registBtn.onclick = function () {
-  window.location.href = `/auth/register/index.html`;
-};
+export function getToken() {
+  return localStorage.getItem("token");
+}
