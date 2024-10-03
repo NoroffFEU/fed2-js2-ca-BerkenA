@@ -1,3 +1,4 @@
+import { API_KEY } from "../../api/constants";
 import { authGuard } from "../../utilities/authGuard";
 
 authGuard();
@@ -16,11 +17,11 @@ async function fetchSinglePost() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Token}`,
-          "X-Noroff-API-Key": "9601e4e1-716f-4316-9a6b-5a1ee44e55df",
+          "X-Noroff-API-Key": API_KEY,
         },
       }
     );
-
+    console.log(`Fetching post with ID: ${Id}`);
     if (!response.ok) {
       throw new Error(data.message || "Failed to fetch posts");
     }

@@ -1,32 +1,38 @@
 import { authGuard } from "../../utilities/authGuard";
+import { API_KEY } from "../constants";
 
 authGuard();
 
-export async function createPost({ title, body, tags, media }) {
-  const getToken = window.localStorage.getItem("token");
+export async function createPost({ title, body, tags, altText, imageUrl }) {
+  const token = window.localStorage.getItem("token");
 
   try {
     const response = await fetch("https://v2.api.noroff.dev/social/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken}`,
-        "X-Noroff-API-Key": "9601e4e1-716f-4316-9a6b-5a1ee44e55df",
+        Authorization: `Bearer ${token}`,
+        "X-Noroff-API-Key": API_KEY,
       },
-      body: {
+      body: JSON.stringify({
         title: title,
         body: body,
         tags: tags,
-        media: media,
-      },
+        media: {
+          url: imageUrl,
+          alt: altText,
+        },
+      }),
     });
 
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch posts");
-    }
     const data = await response.json();
+    window.location.href = "/";
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create post");
+    }
+
     return data.data;
   } catch (error) {
-    console.error("Error fetching posts:", error);
+    console.error("Error creating post:", error);
   }
 }

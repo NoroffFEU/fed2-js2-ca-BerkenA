@@ -1,3 +1,4 @@
+import { API_KEY } from "../../api/constants";
 import { authGuard } from "../../utilities/authGuard";
 
 authGuard();
@@ -11,7 +12,7 @@ async function fetchAllPosts() {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken}`,
-        "X-Noroff-API-Key": "9601e4e1-716f-4316-9a6b-5a1ee44e55df",
+        "X-Noroff-API-Key": API_KEY,
       },
     });
 
@@ -61,7 +62,7 @@ function displayPosts(posts) {
 }
 
 function goToPost(id) {
-  window.location.href = `/post?id=${id}`;
+  window.location.href = `/post/?id=${id}`;
 }
 
 fetchAllPosts().then((posts) => displayPosts(posts));
