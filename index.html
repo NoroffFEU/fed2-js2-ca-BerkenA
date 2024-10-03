@@ -6,17 +6,21 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noroff FED2 JS2 CA</title>
-  <script type="module" src="/src/app.js"></script>
+  <script type="module" src="/src/app.js" defer></script>
 </head>
 
 <body>
-  <img src="/images/noroff-logo.png" alt="Noroff Logo" />
+  <img src="public/images/noroff-logo.png" alt="Noroff Logo" />
 
   <h1>Home</h1>
-
+  <button id="logoutButton">Logout</button>
   <a href="/profile/">My Profile</a>
   <a href="/auth/login/">Login</a>
   <a href="/auth/register/">Register</a>
-  <button>Logout</button>
+  <div id="postsContainer"></div>
+  <button id="prevPage">Previous</button>
+  <button id="nextPage">Next</button>
+  <span id="pageIndicator"></span>
 </body>
+
 </html>
