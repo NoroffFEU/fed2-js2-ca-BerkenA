@@ -32,7 +32,9 @@ export async function onLogin(event) {
     }
 
     token = data.data.accessToken;
+    const username = data.data.name;
     localStorage.setItem("token", token);
+    localStorage.setItem("username", username);
     window.location.href = `/`;
   } catch (error) {
     console.error("Login error:", error);

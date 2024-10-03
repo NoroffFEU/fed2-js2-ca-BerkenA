@@ -13,5 +13,5 @@ export async function getUserPosts(username) {
   if (!response.ok) {
     throw new Error("Failed to fetch user posts");
   }
-  return response.json(); // Assuming the API returns JSON data
+  return response.json();
 }

@@ -21,7 +21,7 @@ async function fetchSinglePost() {
         },
       }
     );
-    console.log(`Fetching post with ID: ${Id}`);
+
     if (!response.ok) {
       throw new Error(data.message || "Failed to fetch posts");
     }

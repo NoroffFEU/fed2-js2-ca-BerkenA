@@ -1,22 +1,71 @@
+import { API_KEY } from "../../api/constants";
 import { authGuard } from "../../utilities/authGuard";
-import { getUserPosts } from "../../api/post/read.js";
 
 authGuard();
 
-async function displayUserPosts() {
-  try {
-    const username = localStorage.getItem("username");
-    const posts = await getUserPosts(username);
+async function myProfile() {
+  const token = window.localStorage.getItem("token");
+  const username = window.localStorage.getItem("username");
 
-    const postsContainer = document.querySelector("#user-posts");
-    posts.forEach((post) => {
-      const postElement = document.createElement("div");
-      postElement.textContent = post.title;
-      postsContainer.appendChild(postElement);
-    });
+  if (!username) {
+    console.error("No username provided in localStorage.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://v2.api.noroff.dev/social/profiles/${username}/posts`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-Noroff-API-Key": API_KEY,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch post data");
+    }
+
+    const data = await response.json();
+    displayPosts(data.data);
   } catch (error) {
-    console.error("Error fetching user posts", error);
+    console.error("Error fetching posts:", error);
   }
 }
 
-displayUserPosts();
+function displayPosts(posts) {
+  const postsContainer = document.getElementById("postsContainer");
+  postsContainer.innerHTML = "";
+
+  if (!posts || posts.length === 0) {
+    postsContainer.innerHTML = "<p>No posts available.</p>";
+    return;
+  }
+
+  posts.forEach((post) => {
+    const postElement = document.createElement("div");
+    postElement.innerHTML = `
+      <h2>${post.title}</h2>
+                  <img src="${post.media.url}" alt="${
+      post.media.alt
+    }" style="max-width: 100%; height: auto;">
+      <p>${post.body}</p>
+      <small>Posted on: ${new Date(post.created).toLocaleDateString()}</small>
+      <div>
+        <span>Comments: ${post._count.comments}</span>
+        <span>Reactions: ${post._count.reactions}</span>
+      </div>
+        <div>
+    <button onclick="location.href='${`/post/edit/?id=${post.id}`}'">Edit Post</button>
+    <button onclick="location.href='${`/post/?id=${post.id}`}'">View Post</button>
+  </div>
+      <hr>
+    `;
+    postsContainer.appendChild(postElement);
+  });
+}
+
+myProfile();
