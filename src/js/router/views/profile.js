@@ -1,4 +1,5 @@
 import { API_KEY } from "../../api/constants";
+import { onDeletePost } from "../../ui/post/delete";
 import { authGuard } from "../../utilities/authGuard";
 
 authGuard();
@@ -61,9 +62,18 @@ function displayPosts(posts) {
         <div>
     <button onclick="location.href='${`/post/edit/?id=${post.id}`}'">Edit Post</button>
     <button onclick="location.href='${`/post/?id=${post.id}`}'">View Post</button>
+    <button class="deleteButton" data-id="${post.id}">Delete Post</button>
   </div>
       <hr>
     `;
+    const postsContainer = document.getElementById("postsContainer");
+    postsContainer.addEventListener("click", (event) => {
+      // Check if the clicked element has the class "deleteButton"
+      if (event.target.classList.contains("deleteButton")) {
+        const postId = event.target.getAttribute("data-id"); // Get the post ID
+        onDeletePost(postId); // Call the onDeletePost function with the post ID
+      }
+    });
     postsContainer.appendChild(postElement);
   });
 }

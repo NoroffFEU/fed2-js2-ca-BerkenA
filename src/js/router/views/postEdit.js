@@ -78,12 +78,13 @@ export async function onUpdatePost(event) {
     }
 
     console.log("Post updated successfully:", data.data);
+    window.location.href = "/profile/";
+    alert("Your post has been edited successfully");
   } catch (error) {
     console.error("Error updating post:", error);
   }
 }
 
-// Fetch the existing post data and pre-fill the form
 getSinglePost().then((post) => {
   if (post) {
     document.getElementById("title").value = post.title || "";
