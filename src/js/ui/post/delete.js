@@ -1,4 +1,7 @@
 import { API_KEY } from "../../api/constants";
+import { authGuard } from "../../utilities/authGuard";
+
+authGuard();
 
 export async function onDeletePost(postId) {
   if (!postId) {

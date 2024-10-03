@@ -1,7 +1,11 @@
 import { API_KEY } from "../../api/constants";
+import { onLogout } from "../../ui/auth/logout";
 import { authGuard } from "../../utilities/authGuard";
 
 authGuard();
+
+const logBtn = document.getElementById("logoutButton");
+logBtn.addEventListener("click", onLogout);
 
 async function fetchAllPosts() {
   const getToken = window.localStorage.getItem("token");
