@@ -1,13 +1,17 @@
+import { API_KEY } from "../../api/constants";
+
 const button = document.getElementById("button");
 
 export async function onRegister(event) {
   event.preventDefault();
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const name = document.getElementById("name").value;
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("X-Noroff-API-Key", API_KEY);
 
   const raw = JSON.stringify({
     name: name,
@@ -31,8 +35,17 @@ export async function onRegister(event) {
       const errorResponse = await response.json();
       throw new Error(errorResponse.errors[0].message);
     }
-    window.alert("Registration was successful");
-    window.location.href = "";
+
+    const data = await response.json();
+    alert("Registration was successful");
+
+    const token = data.data.accessToken;
+    const username = data.data.name;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("username", username);
+
+    window.location.href = `/`;
   } catch (error) {
     console.error(error);
     window.alert("Oops, there was an error: " + error.message);
