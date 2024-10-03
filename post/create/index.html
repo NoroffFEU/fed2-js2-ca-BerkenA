@@ -1,16 +1,42 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Noroff FED2 JS2 CA</title>
-    <script type="module" src="/src/app.js"></script>
-  </head>
-  <body>
-    <h1>Create Post</h1>
 
-    <form name="createPost">
-      <button>Create Post</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noroff FED2 JS2 CA</title>
+  <script type="module" src="/src/app.js" defer></script>
+</head>
+
+<body>
+  <h1>Create Post</h1>
+
+  <form name="createPost" id="createPost">
+    <label for="text">
+      Title of your blogpost:
+    </label>
+    <input placeholder="Type your title here" type="text" id="title" name="title" required />
+    <label for="text">
+      Body:
+    </label>
+    <textarea type="text" placeholder="Type your blog here" id="body" name="body" rows="20" maxlength="2000"
+      required></textarea>
+    <label for="text">
+      Tags:
+    </label>
+    <input type="text" placeholder="Type your tags here" id="tags" name="tags" maxlength="24" />
+    <label for="altText">
+      Alt:
+    </label>
+    <input type="text" placeholder="Submit your alt text" id="altText" name="altText" />
+    <label for="image">
+      Submit image:
+    </label>
+    <input type="text" placeholder="Submit your image here" id="imageUrl" name="imageUrl" />
+    <section style="display: none;" id="imagePreview">
+    </section>
+    <button id="submitPost">Create Post</button>
+  </form>
+</body>
+
 </html>
