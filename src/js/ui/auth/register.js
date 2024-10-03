@@ -1,4 +1,5 @@
 import { API_KEY } from "../../api/constants";
+import { onLogin } from "./login";
 
 const button = document.getElementById("button");
 
@@ -39,17 +40,14 @@ export async function onRegister(event) {
     const data = await response.json();
     alert("Registration was successful");
 
-    const token = data.data.accessToken;
     const username = data.data.name;
-
-    localStorage.setItem("token", token);
     localStorage.setItem("username", username);
 
-    window.location.href = `/`;
+    window.location.href = `/auth/login/`;
   } catch (error) {
     console.error(error);
     window.alert("Oops, there was an error: " + error.message);
   }
 }
 
-button.onclick = onRegister;
+button.onclick = onRegister().then(onLogin);
